@@ -9,7 +9,6 @@ player.on('timeupdate', throttle(onPlayTimer, 1000));
 
 function onPlayTimer(data) {
     localStorage.setItem(PLAY_KEY, JSON.stringify(data))
-    console.log(data.seconds)
 }
 
 const savedTime = localStorage.getItem(PLAY_KEY)

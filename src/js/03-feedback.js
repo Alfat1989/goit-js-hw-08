@@ -7,7 +7,6 @@ form.addEventListener('input', throttle(onInputForm, 500))
 const formObj = {}
 const KEY_STORAGE='feedback-form-state'
 
-
 populateTextArea()
 
 function onInputForm(e) {
@@ -31,7 +30,6 @@ function populateTextArea() {
 
 }
 
-
 function onSubmit(e) {
     e.preventDefault()
     // Если форма пустая то не консолит объект
@@ -41,8 +39,7 @@ function onSubmit(e) {
         e.currentTarget.reset()
         localStorage.removeItem(KEY_STORAGE)
     }
-    
-    
+     
 }
 
 
