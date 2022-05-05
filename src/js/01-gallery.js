@@ -33,6 +33,6 @@ const instance = new SimpleLightbox('.gallery a', {
         docClose: true,
         captionsData: 'alt',
         }
-    );
+   );
 
 console.log('hello')
