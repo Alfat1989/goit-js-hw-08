@@ -22,7 +22,7 @@ const apiService = new API();
 
 formEl.addEventListener('submit', onFormSubmit)
 loadBtn.addEventListener('click', onLoadMore)
-divEl.addEventListener('click', openLightBox)
+// divEl.addEventListener('click', openLightBox)
 
 function onFormSubmit(e) {
     e.preventDefault()
@@ -35,6 +35,8 @@ function onFormSubmit(e) {
     console.log(apiService)
     apiService.onFetch()
         .then(onRender)
+        .then(openLightBox)
+    
 }
 
 
@@ -49,6 +51,11 @@ function onLoadMore() {
 function onRender(card) {
     divEl.insertAdjacentHTML('beforeend', card)
     
+ 
+}
+
+function openLightBox() {
+    // e.preventDefault()
    new SimpleLightbox('.gallery a', {
         
         animationSpeed: 250,
@@ -59,15 +66,8 @@ function onRender(card) {
         captionsData: 'alt',
         }
    );
+
 }
 
-function openLightBox(e) {
-    e.preventDefault()
-    // if (e.target.nodeName===IMG) {
-    //     return
-    // }
-
-    console.log(e.currentTarget.nodeName)
-}
-
+  
  
