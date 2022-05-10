@@ -9,6 +9,7 @@ import '../css/homework-11.css'
 // import debounce from 'lodash.debounce';
 import API from './fetch-api'
 import SimpleLightbox from "simplelightbox";
+import { Notify } from 'notiflix';
 
 console.log('hello')
 // console.log(cardTpl)
@@ -30,29 +31,41 @@ function onFormSubmit(e) {
     apiService.resetPage()
     apiService.query = e.currentTarget.elements.searchQuery.value
     if (apiService.query==='') {
-        return
+        return Notify.warning(`add some name`)
     }
     console.log(apiService)
-    apiService.onFetch()
-        .then(onRender)
-        .then(openLightBox)
+    // apiService.onFetch()
+    //     .then(onRender)
+        getRender().then(openLightBox)
     
 }
 
+function createCardMarkap(markap) {
+    return markap.map(cardTpl).join('')
+}
+
+function onRender(card) {
+    divEl.insertAdjacentHTML('beforeend', card)  
+}
 
 function onLoadMore() {
     apiService.incrimentPage()
-    apiService.onFetch()
+    // apiService.onFetch()
+    //     .then(onRender)
+    getRender()
+}
+
+function getRender() {
+    const render=apiService.onFetch()
         .then(onRender)
     
+    return render
 }
 
 
-function onRender(card) {
-    divEl.insertAdjacentHTML('beforeend', card)
-    
- 
-}
+
+
+
 
 function openLightBox() {
     // e.preventDefault()

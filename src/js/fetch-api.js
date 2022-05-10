@@ -12,8 +12,10 @@ export default class ApiService{
         this.page = 1;
     }
 
-    onFetch() {
-                return axios.get(URL, {
+    async onFetch() {
+
+        try {
+            const getUrl= await axios.get(URL, {
             params: {
                 key: USER_KEY,
                 q: this.searchQuery,
@@ -21,17 +23,39 @@ export default class ApiService{
                 orientation: 'horizontal',
                 safesearch: true,
                 page: this.page,
-                per_page: 3,
+                per_page: 20,
             }
-        })
-            .then(response => response.data)
-            .then(obj => {
-                console.log(obj)
-                console.log(obj.totalHits)
-                Notify.info(`total hits: ${obj.totalHits}`)
-                return obj.hits
             })
-                    .then(this.createCardMarkap)
+            
+            const responseUrl = await getUrl.data; 
+            const objResp = await responseUrl.hits;
+            
+            const render = await this.createCardMarkap(objResp)
+            return render
+            
+        } catch (error) {
+            Notify.failure(`Ошибка`)
+            // console.log(error.message)
+        }
+        //         return axios.get(URL, {
+        //     params: {
+        //         key: USER_KEY,
+        //         q: this.searchQuery,
+        //         image_type: 'photo',
+        //         orientation: 'horizontal',
+        //         safesearch: true,
+        //         page: this.page,
+        //         per_page: 20,
+        //     }
+        // })
+        //     .then(response => response.data)
+        //     .then(obj => {
+        //         console.log(obj)
+        //         console.log(obj.totalHits)
+        //         Notify.info(`total hits: ${obj.totalHits}`)
+        //         return obj.hits
+        //     })
+        //             .then(this.createCardMarkap)
 
     }
 
