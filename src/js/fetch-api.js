@@ -60,6 +60,7 @@ export default class ApiService{
     }
 
     createCardMarkap(markap) {
+        console.log(markap)
     return markap.map(cardTpl).join('')
    
     }
