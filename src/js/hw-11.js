@@ -1,6 +1,7 @@
 // import '../css/homework-11.css'
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import '../css/homework-11.css'
+import cardTpl from '../templates/cards-markap.hbs'
 import API from './fetch-api'
 import SimpleLightbox from "simplelightbox";
 import { Notify } from 'notiflix';
@@ -41,8 +42,15 @@ function onFormSubmit(e) {
     
 }
 
+function getRender() {
+   const render= apiService.onFetch()
+        .then(createCardMarkap).then(onRender)
+        return render
+}
+
 function createCardMarkap(markap) {
-    return markap.map(cardTpl).join('')
+    const cardMarkap = markap.map(el=>cardTpl(el)).join('');
+    return cardMarkap
 }
 
 function onRender(card) {
@@ -56,11 +64,7 @@ function onLoadMore() {
     getRender()
 }
 
-function getRender() {
-    const render=apiService.onFetch()
-        .then(onRender)
-        return render
-}
+
 
 
   
