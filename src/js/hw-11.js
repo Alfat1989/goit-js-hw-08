@@ -6,8 +6,6 @@ import API from './fetch-api'
 import SimpleLightbox from "simplelightbox";
 import { Notify } from 'notiflix';
 
-console.log('hello')
-
 const formEl = document.querySelector('#search-form')
 const loadBtn = document.querySelector('.load-more')
 const divEl = document.querySelector('.gallery')
@@ -36,25 +34,34 @@ function onFormSubmit(e) {
     if (apiService.query==='') {
         return Notify.warning(`add some name`)
     }
-    console.log(apiService)
-
     getRender()
-    
 }
 
-function getRender() {
-   const render= apiService.onFetch()
-        .then(createCardMarkap).then(onRender)
+async function getRender() {
+    try {
+        const getApi = await apiService.onFetch()
+        const getData = await getApi.hits
+        console.log(getApi)
+        if (getData.length===0) {
+           return Notify.warning('nothing')
+        }
+        Notify.info(`total ${getApi.totalHits}`)
+        const objHits = await createCardMarkap(getData)
+        const render = await onRender(objHits)
         return render
+       
+        
+    } catch {
+        onError()
+    }
+
 }
 
 function createCardMarkap(markap) {
-    const cardMarkap = markap.map(el=>cardTpl(el)).join('');
-    return cardMarkap
+    return markap.map(el => cardTpl(el)).join('');
 }
 
 function onRender(card) {
-    
     divEl.insertAdjacentHTML('beforeend', card)  
     lightbox.refresh()
 }
@@ -64,6 +71,9 @@ function onLoadMore() {
     getRender()
 }
 
+function onError() {
+    Notify.failure(`Sorry, there are no images matching your search query. Please try again.`)
+}
 
 
 
